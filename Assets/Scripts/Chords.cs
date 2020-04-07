@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Chords : MonoBehaviour {
     GameObject fingers;
@@ -10,6 +11,7 @@ public class Chords : MonoBehaviour {
     Transform ring;
     Transform pinky;
     bool playing;
+    public Text chordText;
 
     // Use this for initialization
     void Start () {
@@ -21,6 +23,7 @@ public class Chords : MonoBehaviour {
         middle = fingers_trans.Find("Middle");
         ring = fingers_trans.Find("Ring");
         pinky = fingers_trans.Find("Pinky");
+        chordText.text = "Not currently playing";
     }
 	
 	// Update is called once per frame
@@ -37,6 +40,7 @@ public class Chords : MonoBehaviour {
             middle.gameObject.SetActive(true);
             ring.gameObject.SetActive(true);
             playing = true;
+            chordText.text = "Now playing: A major";
         }
 
         else if (Input.GetKey(KeyCode.C))
@@ -49,6 +53,7 @@ public class Chords : MonoBehaviour {
             middle.gameObject.SetActive(true);
             ring.gameObject.SetActive(true);
             playing = true;
+            chordText.text = "Now playing: C major";
         }
         else if (Input.GetKey(KeyCode.G))
         {
@@ -60,6 +65,7 @@ public class Chords : MonoBehaviour {
             middle.gameObject.SetActive(true);
             ring.gameObject.SetActive(true);
             playing = true;
+            chordText.text = "Now playing: G major";
         }
         else if (Input.GetKey(KeyCode.D))
         {
@@ -71,6 +77,7 @@ public class Chords : MonoBehaviour {
             middle.gameObject.SetActive(true);
             ring.gameObject.SetActive(true);
             playing = true;
+            chordText.text = "Now playing: D major";
         }
         else if (Input.GetKey(KeyCode.E))
         {
@@ -82,6 +89,7 @@ public class Chords : MonoBehaviour {
             middle.gameObject.SetActive(true);
             ring.gameObject.SetActive(true);
             playing = true;
+            chordText.text = "Now playing: E major";
         }
 
         //sets chord fingerings inactive
@@ -92,6 +100,7 @@ public class Chords : MonoBehaviour {
             ring.gameObject.SetActive(false);
             pinky.gameObject.SetActive(false);
             playing = false;
+            
         }
 
         //resets fingers to empty gameobjects
@@ -101,6 +110,7 @@ public class Chords : MonoBehaviour {
             middle = fingers_trans.Find("Middle");
             ring = fingers_trans.Find("Ring");
             pinky = fingers_trans.Find("Pinky");
+            chordText.text = "Not currently playing";
         }
 	}
 }
