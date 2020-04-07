@@ -39,6 +39,51 @@ public class Chords : MonoBehaviour {
             playing = true;
         }
 
+        else if (Input.GetKey(KeyCode.C))
+        {
+            //Debug.Log("PLAYING C");
+            index = fingers_trans.Find("5-1");
+            middle = fingers_trans.Find("3-2");
+            ring = fingers_trans.Find("2-3");
+            index.gameObject.SetActive(true);
+            middle.gameObject.SetActive(true);
+            ring.gameObject.SetActive(true);
+            playing = true;
+        }
+        else if (Input.GetKey(KeyCode.G))
+        {
+            //Debug.Log("PLAYING C");
+            index = fingers_trans.Find("2-2");
+            middle = fingers_trans.Find("1-3");
+            ring = fingers_trans.Find("6-3");
+            index.gameObject.SetActive(true);
+            middle.gameObject.SetActive(true);
+            ring.gameObject.SetActive(true);
+            playing = true;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            //Debug.Log("PLAYING C");
+            index = fingers_trans.Find("4-2");
+            middle = fingers_trans.Find("6-2");
+            ring = fingers_trans.Find("5-3");
+            index.gameObject.SetActive(true);
+            middle.gameObject.SetActive(true);
+            ring.gameObject.SetActive(true);
+            playing = true;
+        }
+        else if (Input.GetKey(KeyCode.E))
+        {
+            //Debug.Log("PLAYING C");
+            index = fingers_trans.Find("4-1");
+            middle = fingers_trans.Find("3-2");
+            ring = fingers_trans.Find("2-2");
+            index.gameObject.SetActive(true);
+            middle.gameObject.SetActive(true);
+            ring.gameObject.SetActive(true);
+            playing = true;
+        }
+
         //sets chord fingerings inactive
         else if (!Input.anyKey && playing) {
             //Debug.Log("LETTING GO");
