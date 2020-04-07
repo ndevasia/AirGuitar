@@ -963,6 +963,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chordText: {fileID: 1220254154}
+  IndexSprite: {fileID: 21300000, guid: 7e9b85313c6a6d746a6c8eaedafa9a66, type: 3}
+  MiddleSprite: {fileID: 21300000, guid: 6499960433ad7ca42b9c295e1ba604bd, type: 3}
+  RingSprite: {fileID: 21300000, guid: 9fe4a66fe02cbe345bf0e29bed2c35e9, type: 3}
+  PinkySprite: {fileID: 21300000, guid: 125837663a82e0e4598448216d7a15fe, type: 3}
 --- !u!1 &1020153421
 GameObject:
   m_ObjectHideFlags: 0

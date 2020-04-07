@@ -12,6 +12,10 @@ public class Chords : MonoBehaviour {
     Transform pinky;
     bool playing;
     public Text chordText;
+    public Sprite IndexSprite;
+    public Sprite MiddleSprite;
+    public Sprite RingSprite;
+    public Sprite PinkySprite;
 
     // Use this for initialization
     void Start () {
@@ -112,5 +116,10 @@ public class Chords : MonoBehaviour {
             pinky = fingers_trans.Find("Pinky");
             chordText.text = "Not currently playing";
         }
-	}
+
+        index.GetComponent<SpriteRenderer>().sprite = IndexSprite;
+        middle.GetComponent<SpriteRenderer>().sprite = MiddleSprite;
+        ring.GetComponent<SpriteRenderer>().sprite = RingSprite;
+        pinky.GetComponent<SpriteRenderer>().sprite = PinkySprite;
+    }
 }
