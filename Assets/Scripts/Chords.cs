@@ -121,7 +121,7 @@ public class Chords : MonoBehaviour {
 
         else if (Input.GetKey(KeyCode.B))
         {
-            //Debug.Log("PLAYING F");
+            //Debug.Log("PLAYING B");
             bar2.SetActive(true);
             middle = fingers_trans.Find("3-4");
             ring = fingers_trans.Find("4-4");

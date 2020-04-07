@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Chords.cs" />
+    <Compile Include="Assets\Scripts\PlayGame.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/ndevasia/projects/AirGuitar/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
