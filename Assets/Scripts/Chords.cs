@@ -12,12 +12,23 @@ public class Chords : MonoBehaviour {
     Transform pinky;
     bool playing;
     public Text chordText;
+
     public Sprite IndexSprite;
     public Sprite MiddleSprite;
     public Sprite RingSprite;
     public Sprite PinkySprite;
     public GameObject bar1;
     public GameObject bar2;
+    List<GameObject> bars = new List<GameObject>();
+
+    public GameObject AMajor;
+    public GameObject BMajor;
+    public GameObject CMajor;
+    public GameObject DMajor;
+    public GameObject EMajor;
+    public GameObject FMajor;
+    public GameObject GMajor;
+    List<GameObject> chords = new List<GameObject>();
 
     // Use this for initialization
     void Start () {
@@ -30,8 +41,8 @@ public class Chords : MonoBehaviour {
         ring = fingers_trans.Find("Ring");
         pinky = fingers_trans.Find("Pinky");
         chordText.text = "Not currently playing";
-        bar1.SetActive(false);
-        bar2.SetActive(false);
+        bars.AddRange(new List<GameObject>() { bar1, bar2 });
+        chords.AddRange(new List<GameObject>() { AMajor, BMajor, CMajor, DMajor, EMajor, FMajor, GMajor });
     }
 	
 	// Update is called once per frame
@@ -41,6 +52,11 @@ public class Chords : MonoBehaviour {
         if (Input.GetKey(KeyCode.A))
         {
             //Debug.Log("PLAYING A");
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                AMajor.SetActive(true);
+                AMajor.GetComponent<AudioSource>().Play();
+            }
             index = fingers_trans.Find("3-2");
             middle = fingers_trans.Find("4-2");
             ring = fingers_trans.Find("5-2");
@@ -50,10 +66,16 @@ public class Chords : MonoBehaviour {
             playing = true;
             chordText.text = "Now playing: A major";
         }
+        
 
         else if (Input.GetKey(KeyCode.C))
         {
             //Debug.Log("PLAYING C");
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                CMajor.SetActive(true);
+                CMajor.GetComponent<AudioSource>().Play();
+            }
             index = fingers_trans.Find("5-1");
             middle = fingers_trans.Find("3-2");
             ring = fingers_trans.Find("2-3");
@@ -66,6 +88,11 @@ public class Chords : MonoBehaviour {
         else if (Input.GetKey(KeyCode.G))
         {
             //Debug.Log("PLAYING G");
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                GMajor.SetActive(true);
+                GMajor.GetComponent<AudioSource>().Play();
+            }
             index = fingers_trans.Find("2-2");
             middle = fingers_trans.Find("1-3");
             ring = fingers_trans.Find("6-3");
@@ -78,6 +105,11 @@ public class Chords : MonoBehaviour {
         else if (Input.GetKey(KeyCode.D))
         {
             //Debug.Log("PLAYING D");
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                DMajor.SetActive(true);
+                DMajor.GetComponent<AudioSource>().Play();
+            }
             index = fingers_trans.Find("4-2");
             middle = fingers_trans.Find("6-2");
             ring = fingers_trans.Find("5-3");
@@ -90,6 +122,11 @@ public class Chords : MonoBehaviour {
         else if (Input.GetKey(KeyCode.E))
         {
             //Debug.Log("PLAYING E");
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                EMajor.SetActive(true);
+                EMajor.GetComponent<AudioSource>().Play();
+            }
             index = fingers_trans.Find("4-1");
             middle = fingers_trans.Find("3-2");
             ring = fingers_trans.Find("2-2");
@@ -102,6 +139,11 @@ public class Chords : MonoBehaviour {
 
         else if (Input.GetKey(KeyCode.F))
         {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                FMajor.SetActive(true);
+                FMajor.GetComponent<AudioSource>().Play();
+            }
             //Debug.Log("PLAYING F");
             bar1.SetActive(true);
             middle = fingers_trans.Find("4-2");
@@ -122,6 +164,11 @@ public class Chords : MonoBehaviour {
         else if (Input.GetKey(KeyCode.B))
         {
             //Debug.Log("PLAYING B");
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                BMajor.SetActive(true);
+                BMajor.GetComponent<AudioSource>().Play();
+            }
             bar2.SetActive(true);
             middle = fingers_trans.Find("3-4");
             ring = fingers_trans.Find("4-4");
@@ -145,9 +192,11 @@ public class Chords : MonoBehaviour {
             middle.gameObject.SetActive(false);
             ring.gameObject.SetActive(false);
             pinky.gameObject.SetActive(false);
-            //TODO: put all bars into a list and call this in a for loop
-            bar1.SetActive(false);
-            bar2.SetActive(false);
+            for (int i = 0; i < bars.Count; i++)
+            {
+                GameObject bar = bars[i];
+                bar.SetActive(false);
+            }
             playing = false;
             
         }
@@ -166,5 +215,15 @@ public class Chords : MonoBehaviour {
         middle.GetComponent<SpriteRenderer>().sprite = MiddleSprite;
         ring.GetComponent<SpriteRenderer>().sprite = RingSprite;
         pinky.GetComponent<SpriteRenderer>().sprite = PinkySprite;
+
+        for (int i = 0; i < chords.Count; i++)
+        {
+            GameObject curChord = chords[i];
+            if (!curChord.GetComponent<AudioSource>().isPlaying)
+            {
+                curChord.SetActive(false);
+            }
+        }
+
     }
 }
