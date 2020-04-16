@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+using UnityEngine.Windows.Speech;
 
 public class Chords : MonoBehaviour {
     GameObject fingers;
@@ -29,6 +31,9 @@ public class Chords : MonoBehaviour {
     public GameObject FMajor;
     public GameObject GMajor;
     List<GameObject> chords = new List<GameObject>();
+    private KeywordRecognizer keywordRecognizer;
+    private Dictionary<string, System.Action> actions = new Dictionary<string, System.Action>();
+    private bool recognized = false;
 
     // Use this for initialization
     void Start () {
@@ -43,151 +48,70 @@ public class Chords : MonoBehaviour {
         chordText.text = "Not currently playing";
         bars.AddRange(new List<GameObject>() { bar1, bar2 });
         chords.AddRange(new List<GameObject>() { AMajor, BMajor, CMajor, DMajor, EMajor, FMajor, GMajor });
+
+        actions.Add("A major", A);
+        actions.Add("B major", B);
+        actions.Add("C major", C);
+        actions.Add("D major", D);
+        actions.Add("E major", E);
+        actions.Add("F major", F);
+        actions.Add("G major", G);
+
+        keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray(), ConfidenceLevel.Low);
+        keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
+        keywordRecognizer.Start();
     }
-	
-	// Update is called once per frame
-	void Update () {
-        
+
+    private void RecognizedSpeech(PhraseRecognizedEventArgs speech)
+    {
+        recognized = true;
+        Debug.Log(speech.text);
+        actions[speech.text].Invoke();
+    }
+
+    // Update is called once per frame
+    void Update () {
         Event e = Event.current;
         if (Input.GetKey(KeyCode.A))
         {
             //Debug.Log("PLAYING A");
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                AMajor.SetActive(true);
-                AMajor.GetComponent<AudioSource>().Play();
-            }
-            index = fingers_trans.Find("3-2");
-            middle = fingers_trans.Find("4-2");
-            ring = fingers_trans.Find("5-2");
-            index.gameObject.SetActive(true);
-            middle.gameObject.SetActive(true);
-            ring.gameObject.SetActive(true);
-            playing = true;
-            chordText.text = "Now playing: A major";
+            A();
         }
-        
-
         else if (Input.GetKey(KeyCode.C))
         {
             //Debug.Log("PLAYING C");
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                CMajor.SetActive(true);
-                CMajor.GetComponent<AudioSource>().Play();
-            }
-            index = fingers_trans.Find("5-1");
-            middle = fingers_trans.Find("3-2");
-            ring = fingers_trans.Find("2-3");
-            index.gameObject.SetActive(true);
-            middle.gameObject.SetActive(true);
-            ring.gameObject.SetActive(true);
-            playing = true;
-            chordText.text = "Now playing: C major";
+            C();
         }
         else if (Input.GetKey(KeyCode.G))
         {
             //Debug.Log("PLAYING G");
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                GMajor.SetActive(true);
-                GMajor.GetComponent<AudioSource>().Play();
-            }
-            index = fingers_trans.Find("2-2");
-            middle = fingers_trans.Find("1-3");
-            ring = fingers_trans.Find("6-3");
-            index.gameObject.SetActive(true);
-            middle.gameObject.SetActive(true);
-            ring.gameObject.SetActive(true);
-            playing = true;
-            chordText.text = "Now playing: G major";
+            G();
         }
         else if (Input.GetKey(KeyCode.D))
         {
             //Debug.Log("PLAYING D");
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                DMajor.SetActive(true);
-                DMajor.GetComponent<AudioSource>().Play();
-            }
-            index = fingers_trans.Find("4-2");
-            middle = fingers_trans.Find("6-2");
-            ring = fingers_trans.Find("5-3");
-            index.gameObject.SetActive(true);
-            middle.gameObject.SetActive(true);
-            ring.gameObject.SetActive(true);
-            playing = true;
-            chordText.text = "Now playing: D major";
+            D();
         }
         else if (Input.GetKey(KeyCode.E))
         {
             //Debug.Log("PLAYING E");
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                EMajor.SetActive(true);
-                EMajor.GetComponent<AudioSource>().Play();
-            }
-            index = fingers_trans.Find("4-1");
-            middle = fingers_trans.Find("3-2");
-            ring = fingers_trans.Find("2-2");
-            index.gameObject.SetActive(true);
-            middle.gameObject.SetActive(true);
-            ring.gameObject.SetActive(true);
-            playing = true;
-            chordText.text = "Now playing: E major";
+            E();
         }
 
         else if (Input.GetKey(KeyCode.F))
         {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                FMajor.SetActive(true);
-                FMajor.GetComponent<AudioSource>().Play();
-            }
             //Debug.Log("PLAYING F");
-            bar1.SetActive(true);
-            middle = fingers_trans.Find("4-2");
-            ring = fingers_trans.Find("2-3");
-            pinky = fingers_trans.Find("3-3");
-            //weird bug here where unity latency causes sprites not to update fast enough on calling update
-            //got to do it manually for bar chords i guess
-            middle.GetComponent<SpriteRenderer>().sprite = MiddleSprite;
-            ring.GetComponent<SpriteRenderer>().sprite = RingSprite;
-            pinky.GetComponent<SpriteRenderer>().sprite = PinkySprite;
-            middle.gameObject.SetActive(true);
-            ring.gameObject.SetActive(true);
-            pinky.gameObject.SetActive(true);
-            playing = true;
-            chordText.text = "Now playing: F major";
+            F();
         }
 
         else if (Input.GetKey(KeyCode.B))
         {
             //Debug.Log("PLAYING B");
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                BMajor.SetActive(true);
-                BMajor.GetComponent<AudioSource>().Play();
-            }
-            bar2.SetActive(true);
-            middle = fingers_trans.Find("3-4");
-            ring = fingers_trans.Find("4-4");
-            pinky = fingers_trans.Find("5-4");
-            //weird bug here where unity latency causes sprites not to update fast enough on calling update
-            //got to do it manually for bar chords i guess
-            middle.GetComponent<SpriteRenderer>().sprite = MiddleSprite;
-            ring.GetComponent<SpriteRenderer>().sprite = RingSprite;
-            pinky.GetComponent<SpriteRenderer>().sprite = PinkySprite;
-            middle.gameObject.SetActive(true);
-            ring.gameObject.SetActive(true);
-            pinky.gameObject.SetActive(true);
-            playing = true;
-            chordText.text = "Now playing: B major";
+            B();
         }
 
         //sets chord fingerings inactive
-        else if (!Input.anyKey && playing) {
-            //Debug.Log("LETTING GO");
+        else if (!Input.anyKey && playing && !recognized) {
             index.gameObject.SetActive(false);
             middle.gameObject.SetActive(false);
             ring.gameObject.SetActive(false);
@@ -202,8 +126,7 @@ public class Chords : MonoBehaviour {
         }
 
         //resets fingers to empty gameobjects
-        else {
-            //Debug.Log("NOT PLAYING ANYTHIN");
+        else if (!recognized) {
             index = fingers_trans.Find("Index");
             middle = fingers_trans.Find("Middle");
             ring = fingers_trans.Find("Ring");
@@ -216,6 +139,7 @@ public class Chords : MonoBehaviour {
         ring.GetComponent<SpriteRenderer>().sprite = RingSprite;
         pinky.GetComponent<SpriteRenderer>().sprite = PinkySprite;
 
+        bool flag = false;
         for (int i = 0; i < chords.Count; i++)
         {
             GameObject curChord = chords[i];
@@ -223,7 +147,149 @@ public class Chords : MonoBehaviour {
             {
                 curChord.SetActive(false);
             }
+            else
+            {
+                flag = true;
+            }
         }
+        if (flag){
+            recognized = true;
+        }
+        else
+        {
+            recognized = false;
+        }
+    
+    }
 
+    private void A()
+    {
+        if (Input.GetKeyDown(KeyCode.A) || recognized)
+        {
+            AMajor.SetActive(true);
+            AMajor.GetComponent<AudioSource>().Play();
+        }
+        index = fingers_trans.Find("3-2");
+        middle = fingers_trans.Find("4-2");
+        ring = fingers_trans.Find("5-2");
+        index.gameObject.SetActive(true);
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        playing = true;
+        chordText.text = "Now playing: A major";
+    }
+
+    private void B()
+    {
+        if (Input.GetKeyDown(KeyCode.B) || recognized)
+        {
+            BMajor.SetActive(true);
+            BMajor.GetComponent<AudioSource>().Play();
+        }
+        bar2.SetActive(true);
+        middle = fingers_trans.Find("3-4");
+        ring = fingers_trans.Find("4-4");
+        pinky = fingers_trans.Find("5-4");
+        //weird bug here where unity latency causes sprites not to update fast enough on calling update
+        //got to do it manually for bar chords i guess
+        middle.GetComponent<SpriteRenderer>().sprite = MiddleSprite;
+        ring.GetComponent<SpriteRenderer>().sprite = RingSprite;
+        pinky.GetComponent<SpriteRenderer>().sprite = PinkySprite;
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        pinky.gameObject.SetActive(true);
+        playing = true;
+        chordText.text = "Now playing: B major";
+    }
+
+    private void C()
+    {
+        if (Input.GetKeyDown(KeyCode.C) || recognized)
+        {
+            CMajor.SetActive(true);
+            CMajor.GetComponent<AudioSource>().Play();
+        }
+        index = fingers_trans.Find("5-1");
+        middle = fingers_trans.Find("3-2");
+        ring = fingers_trans.Find("2-3");
+        index.gameObject.SetActive(true);
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        playing = true;
+        chordText.text = "Now playing: C major";
+    }
+
+    private void D()
+    {
+        if (Input.GetKeyDown(KeyCode.D) || recognized)
+        {
+            DMajor.SetActive(true);
+            DMajor.GetComponent<AudioSource>().Play();
+        }
+        index = fingers_trans.Find("4-2");
+        middle = fingers_trans.Find("6-2");
+        ring = fingers_trans.Find("5-3");
+        index.gameObject.SetActive(true);
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        playing = true;
+        chordText.text = "Now playing: D major";
+    }
+
+    private void E()
+    {
+        if (Input.GetKeyDown(KeyCode.E) || recognized)
+        {
+            EMajor.SetActive(true);
+            EMajor.GetComponent<AudioSource>().Play();
+        }
+        index = fingers_trans.Find("4-1");
+        middle = fingers_trans.Find("3-2");
+        ring = fingers_trans.Find("2-2");
+        index.gameObject.SetActive(true);
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        playing = true;
+        chordText.text = "Now playing: E major";
+    }
+
+    private void F()
+    {
+        if (Input.GetKeyDown(KeyCode.F) || recognized)
+        {
+            FMajor.SetActive(true);
+            FMajor.GetComponent<AudioSource>().Play();
+        }
+        bar1.SetActive(true);
+        middle = fingers_trans.Find("4-2");
+        ring = fingers_trans.Find("2-3");
+        pinky = fingers_trans.Find("3-3");
+        //weird bug here where unity latency causes sprites not to update fast enough on calling update
+        //got to do it manually for bar chords i guess
+        middle.GetComponent<SpriteRenderer>().sprite = MiddleSprite;
+        ring.GetComponent<SpriteRenderer>().sprite = RingSprite;
+        pinky.GetComponent<SpriteRenderer>().sprite = PinkySprite;
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        pinky.gameObject.SetActive(true);
+        playing = true;
+        chordText.text = "Now playing: F major";
+    }
+
+    private void G()
+    {
+        if (Input.GetKeyDown(KeyCode.G) || recognized)
+        {
+            GMajor.SetActive(true);
+            GMajor.GetComponent<AudioSource>().Play();
+        }
+        index = fingers_trans.Find("2-2");
+        middle = fingers_trans.Find("1-3");
+        ring = fingers_trans.Find("6-3");
+        index.gameObject.SetActive(true);
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        playing = true;
+        chordText.text = "Now playing: G major";
     }
 }

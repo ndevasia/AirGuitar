@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirGuitar", "Assembly-CSharp.csproj", "{61816A49-D93F-A08E-881F-3530F8F15611}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{61816A49-D93F-A08E-881F-3530F8F15611}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
