@@ -30,11 +30,34 @@ namespace Leap.Unity {
     }
 
     public override void UpdateHand() {
+      float grabThreshold = 0.5f;
+      float velocityThreshold = 1;
+      float[] velocities = hand_.PalmVelocity.ToFloatArray();
+      float grab = hand_.GrabStrength;
+      //Debug.Log("GRABBING" + hand_.GrabStrength);
+      //Debug.Log("VELOCITY" + hand_.PalmVelocity.ToFloatArray());
+      
+      if (grab >= grabThreshold) {
+        if (velocities[1] < - velocityThreshold) {
+            Debug.Log("DOWNSTRUM");
+
+        } else if (velocities[1] > velocityThreshold) {
+            Debug.Log("UPSTRUM");
+        } else {
+            //Debug.Log("NOT FAST ENOUGH");
+        }
+
+      } else {
+          Debug.Log("NOT PINCHING");
+
+       }
+       
 
       for (int f = 0; f < fingers.Length; ++f) {
         if (fingers[f] != null) {
           fingers[f].UpdateFinger();
-        }
+          // Debug.Log(fingers[f].name + "  " + fingers[f].GetTipPosition());
+                }
       }
 
       if (palm != null) {
