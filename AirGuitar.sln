@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirGuitar", "Assembly-CSharp.csproj", "{61816A49-D93F-A08E-881F-3530F8F15611}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirGuitar", "Assembly-CSharp-Editor.csproj", "{6E3465A5-D44E-F702-3E11-68263ADDB82D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{61816A49-D93F-A08E-881F-3530F8F15611}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61816A49-D93F-A08E-881F-3530F8F15611}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61816A49-D93F-A08E-881F-3530F8F15611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E3465A5-D44E-F702-3E11-68263ADDB82D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E3465A5-D44E-F702-3E11-68263ADDB82D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E3465A5-D44E-F702-3E11-68263ADDB82D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E3465A5-D44E-F702-3E11-68263ADDB82D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
