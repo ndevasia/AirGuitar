@@ -14,6 +14,12 @@ using Leap;
 namespace Leap.Unity {
   /** A physics model for our rigid hand made out of various Unity Collider. */
   public class RigidHand : SkeletalHand {
+        //globals go here
+    public string strum = "NOT PLAYING";
+    public float diff = 0.06f;
+    public float height = 20f;
+    public GameObject AMajor;
+    public GameObject CMajor;
     public override ModelType HandModelType {
       get {
         return ModelType.Physics;
@@ -30,27 +36,54 @@ namespace Leap.Unity {
     }
 
     public override void UpdateHand() {
-      float grabThreshold = 0.5f;
+       if (height == 20f)
+            {
+                height = hand_.GetPalmPose().position.y;
+            }
+
+            //float grabThreshold = 0.5f;
+       //Debug.Log(hand_.GetPalmPose().position.y);
+       float current_pos = hand_.GetPalmPose().position.y;
+       
+       if (current_pos - height > diff)
+            {
+                height = current_pos;
+                AMajor.SetActive(true);
+                AMajor.GetComponent<AudioSource>().Play();
+                Debug.Log("UPSTRUM");
+            }
+       else if (current_pos-height < - diff)
+            {
+                height = current_pos;
+                CMajor.SetActive(true);
+                CMajor.GetComponent<AudioSource>().Play();
+                Debug.Log("DOWNSTRUM");
+            }
+
+/*
       float velocityThreshold = 1;
       float[] velocities = hand_.PalmVelocity.ToFloatArray();
-      float grab = hand_.GrabStrength;
-      //Debug.Log("GRABBING" + hand_.GrabStrength);
+      //float grab = hand_.GrabStrength;
+      Debug.Log("POSITION" + hand_.GetPalmPose());
       //Debug.Log("VELOCITY" + hand_.PalmVelocity.ToFloatArray());
       
-      if (grab >= grabThreshold) {
-        if (velocities[1] < - velocityThreshold) {
-            Debug.Log("DOWNSTRUM");
-
-        } else if (velocities[1] > velocityThreshold) {
-            Debug.Log("UPSTRUM");
-        } else {
-            //Debug.Log("NOT FAST ENOUGH");
+      if (velocities[1] < - velocityThreshold) {
+        if (!strum.Equals("DOWNSTRUM")) {
+             strum = "DOWNSTRUM";
+             //Debug.Log(strum);
         }
-
-      } else {
-          Debug.Log("NOT PINCHING");
-
-       }
+      } else if (velocities[1] > velocityThreshold) {
+        if (!strum.Equals("UPSTRUM")){
+            strum = "UPSTRUM";
+            //Debug.Log(strum);
+        }
+       } else {
+           if (!strum.Equals("NOT PLAYING")) {
+                strum = "NOT PLAYING";
+                //Debug.Log(strum);
+           }
+     }
+     */
        
 
       for (int f = 0; f < fingers.Length; ++f) {
