@@ -15,6 +15,7 @@ public class Chords : MonoBehaviour
     Transform pinky;
     bool playing;
     public Text chordText;
+    public string lastPlayed;
 
     public Sprite IndexSprite;
     public Sprite MiddleSprite;
@@ -78,38 +79,45 @@ public class Chords : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             //Debug.Log("PLAYING A");
+            lastPlayed = "A";
             A();
         }
         else if (Input.GetKey(KeyCode.C))
         {
             //Debug.Log("PLAYING C");
+            lastPlayed = "C";
             C();
         }
         else if (Input.GetKey(KeyCode.G))
         {
             //Debug.Log("PLAYING G");
+            lastPlayed = "G";
             G();
         }
         else if (Input.GetKey(KeyCode.D))
         {
             //Debug.Log("PLAYING D");
+            lastPlayed = "G";
             D();
         }
         else if (Input.GetKey(KeyCode.E))
         {
             //Debug.Log("PLAYING E");
+            lastPlayed = "E";
             E();
         }
 
         else if (Input.GetKey(KeyCode.F))
         {
             //Debug.Log("PLAYING F");
+            lastPlayed = "F";
             F();
         }
 
         else if (Input.GetKey(KeyCode.B))
         {
             //Debug.Log("PLAYING B");
+            lastPlayed = "B";
             B();
         }
 
@@ -297,5 +305,10 @@ public class Chords : MonoBehaviour
         ring.gameObject.SetActive(true);
         playing = true;
         chordText.text = "Now playing: G major";
+    }
+
+    public string lastChord()
+    {
+        return lastPlayed;
     }
 }

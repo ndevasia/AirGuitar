@@ -246,6 +246,7 @@
     <Compile Include="Assets\LeapMotion\Core\Scripts\XR\LeapEyeDislocator.cs" />
     <Compile Include="Assets\LeapMotion\Core\Scripts\XR\XRHeightOffset.cs" />
     <Compile Include="Assets\Scripts\Chords.cs" />
+    <Compile Include="Assets\Scripts\LightUpFingers.cs" />
     <Compile Include="Assets\Scripts\PlayGame.cs" />
     <Compile Include="Assets\Scripts\Strum.cs" />
     <None Include="Assets\LeapMotion\Core\Resources\LeapCG.cginc" />
