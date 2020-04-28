@@ -72,10 +72,11 @@ namespace Leap.Unity {
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("LAST PLAYED IS "+ lastPlayed);
         Event e = Event.current;
         if (Input.GetKey(KeyCode.A))
         {
-            //Debug.Log("PLAYING A");
+            Debug.Log("PLAYING A");
             lastPlayed = "A";
             PlayA();
         }
@@ -94,7 +95,7 @@ namespace Leap.Unity {
         else if (Input.GetKey(KeyCode.D))
         {
             //Debug.Log("PLAYING D");
-            lastPlayed = "G";
+            lastPlayed = "D";
             PlayD();
         }
         else if (Input.GetKey(KeyCode.E))
@@ -249,46 +250,61 @@ namespace Leap.Unity {
             //float grabThreshold = 0.5f;
        //Debug.Log(hand_.GetPalmPose().position.y);
        float current_pos = hand_.GetPalmPose().position.y;
+       bool isStrumming = false;
        
        if (current_pos - height > diff)
             {
                 height = current_pos;
-                AMajor.SetActive(true);
-                AMajor.GetComponent<AudioSource>().Play();
+                isStrumming = true;
+                //fAMajor.SetActive(true);
+                //AMajor.GetComponent<AudioSource>().Play();
                 //Debug.Log("UPSTRUM " + Chords.GetComponent<Chords>.);
             }
        else if (current_pos-height < - diff)
             {
                 height = current_pos;
-                CMajor.SetActive(true);
-                CMajor.GetComponent<AudioSource>().Play();
+                isStrumming = true;
+                //CMajor.SetActive(true);
+               // CMajor.GetComponent<AudioSource>().Play();
                 //Debug.Log("DOWNSTRUM " + Chords.lastChord());
             }
+        else
+            {
+                isStrumming = false;
+            }
+            if (isStrumming)
+            {
+                Debug.Log("STRUMMING " + lastPlayed);
+                if (lastPlayed == "A")
+                {
+                    PlayA();
+                }
+                else if (lastPlayed == "B")
+                {
+                    PlayB();
+                }
+                else if (lastPlayed == "C")
+                {
+                    PlayC();
+                }
+                else if (lastPlayed == "D")
+                {
+                    PlayD();
+                }
+                else if (lastPlayed == "E")
+                {
+                    PlayE();
+                }
+                else if (lastPlayed == "F")
+                {
+                    PlayF();
+                }
+                else if (lastPlayed == "G")
+                {
+                    PlayG();
+                }
 
-/*
-      float velocityThreshold = 1;
-      float[] velocities = hand_.PalmVelocity.ToFloatArray();
-      //float grab = hand_.GrabStrength;
-      Debug.Log("POSITION" + hand_.GetPalmPose());
-      //Debug.Log("VELOCITY" + hand_.PalmVelocity.ToFloatArray());
-      
-      if (velocities[1] < - velocityThreshold) {
-        if (!strum.Equals("DOWNSTRUM")) {
-             strum = "DOWNSTRUM";
-             //Debug.Log(strum);
-        }
-      } else if (velocities[1] > velocityThreshold) {
-        if (!strum.Equals("UPSTRUM")){
-            strum = "UPSTRUM";
-            //Debug.Log(strum);
-        }
-       } else {
-           if (!strum.Equals("NOT PLAYING")) {
-                strum = "NOT PLAYING";
-                //Debug.Log(strum);
-           }
-     }
-     */
+            }
        
 
       for (int f = 0; f < fingers.Length; ++f) {

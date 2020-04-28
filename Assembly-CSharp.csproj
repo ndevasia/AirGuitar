@@ -248,7 +248,6 @@
     <Compile Include="Assets\Scripts\Chords.cs" />
     <Compile Include="Assets\Scripts\LightUpFingers.cs" />
     <Compile Include="Assets\Scripts\PlayGame.cs" />
-    <Compile Include="Assets\Scripts\Strum.cs" />
     <None Include="Assets\LeapMotion\Core\Resources\LeapCG.cginc" />
     <None Include="Assets\LeapMotion\Core\README_BEFORE_UPDATING.txt" />
     <None Include="Assets\LeapMotion\Core\readme.txt" />
