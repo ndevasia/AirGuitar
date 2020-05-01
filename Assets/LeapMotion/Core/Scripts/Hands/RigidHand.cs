@@ -31,6 +31,7 @@ namespace Leap.Unity {
     public GameObject EMajor;
     public GameObject FMajor;
     public GameObject GMajor;
+    public GameObject OpenString;
     List<GameObject> chords = new List<GameObject>();
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, System.Action> actions = new Dictionary<string, System.Action>();
@@ -41,14 +42,16 @@ namespace Leap.Unity {
     //public GameObject Chords;
     public float filtering = 0.5f;
     public Text chordText;
+    bool isStrumming = false;
 
 
         // Use this for initialization
         void Start()
     {
-        chords.AddRange(new List<GameObject>() { AMajor, BMajor, CMajor, DMajor, EMajor, FMajor, GMajor });
+        chords.AddRange(new List<GameObject>() { AMajor, BMajor, CMajor, DMajor, EMajor, FMajor, GMajor, OpenString });
         chordText.text = "Not currently playing";
-
+        
+        //this is not necessary get rid of it at some point
         actions.Add("A major", PlayA);
         actions.Add("B major", PlayB);
         actions.Add("C major", PlayC);
@@ -56,6 +59,7 @@ namespace Leap.Unity {
         actions.Add("E major", PlayE);
         actions.Add("F major", PlayF);
         actions.Add("G major", PlayG);
+        
 
         keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray(), ConfidenceLevel.Low);
         keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
@@ -82,25 +86,25 @@ namespace Leap.Unity {
         }
         else if (Input.GetKey(KeyCode.C))
         {
-            //Debug.Log("PLAYING C");
+            Debug.Log("PLAYING C");
             lastPlayed = "C";
             PlayC();
         }
         else if (Input.GetKey(KeyCode.G))
         {
-            //Debug.Log("PLAYING G");
+            Debug.Log("PLAYING G");
             lastPlayed = "G";
             PlayG();
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            //Debug.Log("PLAYING D");
+            Debug.Log("PLAYING D");
             lastPlayed = "D";
             PlayD();
         }
         else if (Input.GetKey(KeyCode.E))
         {
-            //Debug.Log("PLAYING E");
+            Debug.Log("PLAYING E");
             lastPlayed = "E";
             PlayE();
         }
@@ -118,6 +122,10 @@ namespace Leap.Unity {
             lastPlayed = "B";
             PlayB();
         }
+        else
+            {
+                lastPlayed = "OPEN";
+            }
 
         bool flag = false;
         for (int i = 0; i < chords.Count; i++)
@@ -145,7 +153,7 @@ namespace Leap.Unity {
 
     private void PlayA()
     {
-        if (Input.GetKeyDown(KeyCode.A) || recognized)
+        if (Input.GetKey(KeyCode.A) && isStrumming)
         {
             AMajor.SetActive(true);
             AMajor.GetComponent<AudioSource>().Play();
@@ -157,7 +165,7 @@ namespace Leap.Unity {
 
     private void PlayB()
     {
-        if (Input.GetKeyDown(KeyCode.B) || recognized)
+        if (Input.GetKey(KeyCode.B) && isStrumming)
         {
             BMajor.SetActive(true);
             BMajor.GetComponent<AudioSource>().Play();
@@ -168,7 +176,7 @@ namespace Leap.Unity {
 
     private void PlayC()
     {
-        if (Input.GetKeyDown(KeyCode.C) || recognized)
+        if (Input.GetKey(KeyCode.C) && isStrumming)
         {
             CMajor.SetActive(true);
             CMajor.GetComponent<AudioSource>().Play();
@@ -180,7 +188,7 @@ namespace Leap.Unity {
 
     private void PlayD()
     {
-        if (Input.GetKeyDown(KeyCode.D) || recognized)
+        if (Input.GetKey(KeyCode.D) && isStrumming)
         {
             DMajor.SetActive(true);
             DMajor.GetComponent<AudioSource>().Play();
@@ -191,7 +199,7 @@ namespace Leap.Unity {
 
     private void PlayE()
     {
-        if (Input.GetKeyDown(KeyCode.E) || recognized)
+        if (Input.GetKey(KeyCode.E) && isStrumming)
         {
             EMajor.SetActive(true);
             EMajor.GetComponent<AudioSource>().Play();
@@ -202,7 +210,7 @@ namespace Leap.Unity {
 
     private void PlayF()
     {
-        if (Input.GetKeyDown(KeyCode.F) || recognized)
+        if (Input.GetKey(KeyCode.F) && isStrumming)
         {
             FMajor.SetActive(true);
             FMajor.GetComponent<AudioSource>().Play();
@@ -213,13 +221,24 @@ namespace Leap.Unity {
 
     private void PlayG()
     {
-        if (Input.GetKeyDown(KeyCode.G) || recognized)
+        if (Input.GetKey(KeyCode.G) && isStrumming)
         {
             GMajor.SetActive(true);
             GMajor.GetComponent<AudioSource>().Play();
         }
         playing = true;
         chordText.text = "Now playing: G major";
+    }
+
+    private void PlayOpen()
+    {
+        if (!Input.anyKey || recognized)
+        {
+            OpenString.SetActive(true);
+            OpenString.GetComponent<AudioSource>().Play();
+        }
+        playing = true;
+        chordText.text = "Now playing: open string";
     }
 
     public string lastChord()
@@ -250,7 +269,7 @@ namespace Leap.Unity {
             //float grabThreshold = 0.5f;
        //Debug.Log(hand_.GetPalmPose().position.y);
        float current_pos = hand_.GetPalmPose().position.y;
-       bool isStrumming = false;
+       
        
        if (current_pos - height > diff)
             {
@@ -302,6 +321,10 @@ namespace Leap.Unity {
                 else if (lastPlayed == "G")
                 {
                     PlayG();
+                }
+                else if (lastPlayed == "OPEN")
+                {
+                    PlayOpen();
                 }
 
             }
