@@ -17,9 +17,12 @@ public class LightUpFingers : MonoBehaviour {
     public Sprite PinkySprite;
     public GameObject bar1;
     public GameObject bar2;
+    public GameObject bar3;
     List<GameObject> bars = new List<GameObject>();
     public Text chordText;
+    public Text minorText;
     public RigidHand rigid;
+    private bool isMinor = false;
 
     // Use this for initialization
     void Start () {
@@ -30,45 +33,72 @@ public class LightUpFingers : MonoBehaviour {
         middle = fingers_trans.Find("ChordMiddle");
         ring = fingers_trans.Find("ChordRing");
         pinky = fingers_trans.Find("ChordPinky");
-        bars.AddRange(new List<GameObject>() { bar1, bar2 });
+        bars.AddRange(new List<GameObject>() { bar1, bar2, bar3 });
         chordText.text = "Not currently playing";
+        minorText.text = "Minor: " + isMinor;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            isMinor = !isMinor;
+            minorText.text = "Minor: " + isMinor;
+        }
         if (Input.GetKey(KeyCode.A))
         {
-            PressA();
+            if (isMinor)
+                PressAMinor();
+            else
+                PressA();
         }
 
         else if (Input.GetKey(KeyCode.B))
         {
-            PressB();
+            if (isMinor)
+                PressBMinor();
+            else
+                PressB();
         }
 
         else if (Input.GetKey(KeyCode.C))
         {
-            PressC();
+            if (isMinor)
+                PressCMinor();
+            else
+                PressC();
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
-            PressD();
+            if (isMinor)
+                PressDMinor();
+            else
+                PressD();
         }
 
         else if (Input.GetKey(KeyCode.E))
         {
-            PressE();
+            if (isMinor)
+                PressEMinor();
+            else
+                PressE();
         }
 
         else if (Input.GetKey(KeyCode.F))
         {
-            PressF();
+            if (isMinor)
+                PressFMinor();
+            else
+                PressF();
         }
 
         else if (Input.GetKey(KeyCode.G))
         {
-            PressG();
+            if (isMinor)
+                PressGMinor();
+            else
+                PressG();
         }
 
         //sets chord fingerings inactive
@@ -87,7 +117,7 @@ public class LightUpFingers : MonoBehaviour {
         }
 
         //resets fingers to empty gameobjects
-        else if (!rigid.recognized)
+        else 
         {
             index = fingers_trans.Find("ChordIndex");
             middle = fingers_trans.Find("ChordMiddle");
@@ -114,6 +144,17 @@ public class LightUpFingers : MonoBehaviour {
         chordText.text = "Fingering A major";
     }
 
+    private void PressAMinor()
+    {
+        index = fingers_trans.Find("5-1");
+        middle = fingers_trans.Find("3-2");
+        ring = fingers_trans.Find("4-2");
+        index.gameObject.SetActive(true);
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        chordText.text = "Fingering A minor";
+    }
+
     private void PressB()
     {
 
@@ -133,6 +174,25 @@ public class LightUpFingers : MonoBehaviour {
 
     }
 
+    private void PressBMinor()
+    {
+
+        bar2.SetActive(true);
+        middle = fingers_trans.Find("5-3");
+        ring = fingers_trans.Find("3-4");
+        pinky = fingers_trans.Find("4-4");
+        //weird bug here where unity latency causes sprites not to update fast enough on calling update
+        //got to do it manually for bar chords i guess
+        middle.GetComponent<SpriteRenderer>().sprite = MiddleSprite;
+        ring.GetComponent<SpriteRenderer>().sprite = RingSprite;
+        pinky.GetComponent<SpriteRenderer>().sprite = PinkySprite;
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        pinky.gameObject.SetActive(true);
+        chordText.text = "Fingering B minor";
+
+    }
+
     private void PressC()
     {
         index = fingers_trans.Find("5-1");
@@ -142,6 +202,25 @@ public class LightUpFingers : MonoBehaviour {
         middle.gameObject.SetActive(true);
         ring.gameObject.SetActive(true);
         chordText.text = "Fingering C major";
+
+    }
+
+    private void PressCMinor()
+    {
+
+        bar3.SetActive(true);
+        middle = fingers_trans.Find("5-4");
+        ring = fingers_trans.Find("3-5");
+        pinky = fingers_trans.Find("4-5");
+        //weird bug here where unity latency causes sprites not to update fast enough on calling update
+        //got to do it manually for bar chords i guess
+        middle.GetComponent<SpriteRenderer>().sprite = MiddleSprite;
+        ring.GetComponent<SpriteRenderer>().sprite = RingSprite;
+        pinky.GetComponent<SpriteRenderer>().sprite = PinkySprite;
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        pinky.gameObject.SetActive(true);
+        chordText.text = "Fingering C minor";
 
     }
 
@@ -157,6 +236,18 @@ public class LightUpFingers : MonoBehaviour {
 
     }
 
+    private void PressDMinor()
+    {
+        index = fingers_trans.Find("6-1");
+        middle = fingers_trans.Find("4-2");
+        ring = fingers_trans.Find("5-3");
+        index.gameObject.SetActive(true);
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        chordText.text = "Fingering D minor";
+
+    }
+
     private void PressE()
     { 
         index = fingers_trans.Find("4-1");
@@ -166,6 +257,15 @@ public class LightUpFingers : MonoBehaviour {
         middle.gameObject.SetActive(true);
         ring.gameObject.SetActive(true);
         chordText.text = "Fingering E major";
+    }
+
+    private void PressEMinor()
+    {
+        middle = fingers_trans.Find("2-2");
+        ring = fingers_trans.Find("3-2");
+        middle.gameObject.SetActive(true);
+        ring.gameObject.SetActive(true);
+        chordText.text = "Fingering E minor";
     }
 
     private void PressF() //to pay respects
@@ -185,6 +285,20 @@ public class LightUpFingers : MonoBehaviour {
         chordText.text = "Fingering F major";
     }
 
+    private void PressFMinor() 
+    {
+        bar1.SetActive(true);
+        ring = fingers_trans.Find("2-3");
+        pinky = fingers_trans.Find("3-3");
+        //weird bug here where unity latency causes sprites not to update fast enough on calling update
+        //got to do it manually for bar chords i guess
+        ring.GetComponent<SpriteRenderer>().sprite = RingSprite;
+        pinky.GetComponent<SpriteRenderer>().sprite = PinkySprite;
+        ring.gameObject.SetActive(true);
+        pinky.gameObject.SetActive(true);
+        chordText.text = "Fingering F minor";
+    }
+
     private void PressG()
     {
         index = fingers_trans.Find("2-2");
@@ -194,5 +308,19 @@ public class LightUpFingers : MonoBehaviour {
         middle.gameObject.SetActive(true);
         ring.gameObject.SetActive(true);
         chordText.text = "Fingering G major";
+    }
+
+    private void PressGMinor() //to pay respects
+    {
+        bar3.SetActive(true);
+        ring = fingers_trans.Find("2-5");
+        pinky = fingers_trans.Find("3-5");
+        //weird bug here where unity latency causes sprites not to update fast enough on calling update
+        //got to do it manually for bar chords i guess
+        ring.GetComponent<SpriteRenderer>().sprite = RingSprite;
+        pinky.GetComponent<SpriteRenderer>().sprite = PinkySprite;
+        ring.gameObject.SetActive(true);
+        pinky.gameObject.SetActive(true);
+        chordText.text = "Fingering G minor";
     }
 }

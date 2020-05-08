@@ -15,6 +15,7 @@ public class Chords : MonoBehaviour
     Transform pinky;
     bool playing;
     public Text chordText;
+    public Text minorText;
     public string lastPlayed;
 
     public Sprite IndexSprite;
@@ -32,10 +33,19 @@ public class Chords : MonoBehaviour
     public GameObject EMajor;
     public GameObject FMajor;
     public GameObject GMajor;
+
+    public GameObject AMinor;
+    public GameObject BMinor;
+    public GameObject CMinor;
+    public GameObject DMinor;
+    public GameObject EMinor;
+    public GameObject FMinor;
+    public GameObject GMinor;
     List<GameObject> chords = new List<GameObject>();
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, System.Action> actions = new Dictionary<string, System.Action>();
     private bool recognized = false;
+    private bool isMinor = false;
 
     // Use this for initialization
     void Start()
@@ -50,32 +60,19 @@ public class Chords : MonoBehaviour
         pinky = fingers_trans.Find("Pinky");
         chordText.text = "Not currently playing";
         bars.AddRange(new List<GameObject>() { bar1, bar2 });
-        chords.AddRange(new List<GameObject>() { AMajor, BMajor, CMajor, DMajor, EMajor, FMajor, GMajor });
-
-        actions.Add("A major", A);
-        actions.Add("B major", B);
-        actions.Add("C major", C);
-        actions.Add("D major", D);
-        actions.Add("E major", E);
-        actions.Add("F major", F);
-        actions.Add("G major", G);
-
-        keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray(), ConfidenceLevel.Low);
-        keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
-        keywordRecognizer.Start();
-    }
-
-    private void RecognizedSpeech(PhraseRecognizedEventArgs speech)
-    {
-        recognized = true;
-        Debug.Log(speech.text);
-        actions[speech.text].Invoke();
+        chords.AddRange(new List<GameObject>() { AMajor, BMajor, CMajor, DMajor, EMajor, FMajor, GMajor, AMinor, BMinor, CMinor, DMinor, EMinor, FMinor, GMinor});
+        minorText.text = "Minor: " + isMinor;
     }
 
     // Update is called once per frame
     void Update()
     {
         Event e = Event.current;
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            isMinor = !isMinor;
+            minorText.text = "Minor: " + isMinor;
+        }
         if (Input.GetKey(KeyCode.A))
         {
             //Debug.Log("PLAYING A");
