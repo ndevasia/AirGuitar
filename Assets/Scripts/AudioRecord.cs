@@ -13,8 +13,9 @@ public class AudioRecord : MonoBehaviour {
     // Use this for initialization
     void Start () {
         audioSource = gameObject.GetComponent<AudioSource>();
-        actions.Add("A", StartRecording);
-        actions.Add("B", StopRecording);
+        actions.Add("Start", StartRecording);
+        actions.Add("Stop", StopRecording);
+        actions.Add("Play back", Playback);
         
 
         keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray(), ConfidenceLevel.Low);
@@ -31,7 +32,7 @@ public class AudioRecord : MonoBehaviour {
 
     private void StartRecording()
     {
-        Debug.Log("start recording");
+        Debug.Log("start recording with list " + Microphone.devices);
         audioSource.clip = Microphone.Start("", true, 10, 44100);
         Debug.Log("is recording " + Microphone.IsRecording(""));
     }
@@ -40,6 +41,12 @@ public class AudioRecord : MonoBehaviour {
         Debug.Log("stop recording");
         Microphone.End("");
         Debug.Log("is recording " + Microphone.IsRecording(""));
+    }
+
+    private void Playback()
+    {
+        Debug.Log("playback");
+        audioSource.Play();
     }
 
     // Update is called once per frame
