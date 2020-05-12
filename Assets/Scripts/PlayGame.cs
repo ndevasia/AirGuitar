@@ -7,6 +7,6 @@ public class PlayGame : MonoBehaviour {
 
     public void GotoMainScene()
     {
-        SceneManager.LoadScene("GuitarScene");
+        SceneManager.LoadScene("LeapGuitar 1");
     }
 }

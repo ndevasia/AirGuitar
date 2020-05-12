@@ -11,7 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/IntroScene.unity
     guid: 13cce656dc28dc84fb12426208581d1e
-  - enabled: 1
-    path: Assets/Scenes/Camera Testbed.unity
+  - enabled: 0
+    path: Assets/Scenes/LeapGuitar.unity
     guid: 2887ebc59097b704ea0fec3e787dda58
+  - enabled: 1
+    path: Assets/Scenes/LeapGuitar 1.unity
+    guid: f3642ba04e78a0049b567ea0b9ada437
   m_configObjects: {}

@@ -42,14 +42,20 @@ namespace Leap.Unity {
     List<GameObject> chords = new List<GameObject>();
     
     public string strum = "NOT PLAYING";
+    public float pinch = 0f;
+    public float delta = 0f;
     public float diff = 50.0f;
     public float lastHeight = 0f;
     public string direction = "NONE";
-    public float height = 20f;
+    public float initHeight = 20f;
     public float filtering = 0.5f;
+    public float pinchThreshold = 25f;
     public Text chordText;
     bool isStrumming = false;
     private bool isMinor = false;
+    public int numPinches = 0;
+    public int total = 0;
+
 
 
         // Use this for initialization
@@ -75,13 +81,13 @@ namespace Leap.Unity {
         {
             if (isMinor)
             {
-                Debug.Log("PLAYING A MINOR");
+                //Debug.Log("PLAYING A MINOR");
                 lastPlayed = "A minor";
                 PlayAMinor();
             }
             else
             {
-                Debug.Log("PLAYING A");
+                //Debug.Log("PLAYING A");
                 lastPlayed = "A";
                 PlayA();
             }
@@ -91,13 +97,13 @@ namespace Leap.Unity {
         {
             if (isMinor)
             {
-                Debug.Log("PLAYING C MINOR");
+                //Debug.Log("PLAYING C MINOR");
                 lastPlayed = "C minor";
                 PlayCMinor();
             }
             else
             {
-                Debug.Log("PLAYING C");
+                //Debug.Log("PLAYING C");
                 lastPlayed = "C";
                 PlayC();
             }
@@ -106,13 +112,13 @@ namespace Leap.Unity {
         {
             if (isMinor)
             {
-                Debug.Log("PLAYING G MINOR");
+                //Debug.Log("PLAYING G MINOR");
                 lastPlayed = "G minor";
                 PlayGMinor();
             }
             else
             {
-                Debug.Log("PLAYING G");
+                //Debug.Log("PLAYING G");
                 lastPlayed = "G";
                 PlayG();
             }
@@ -122,13 +128,13 @@ namespace Leap.Unity {
         {
             if (isMinor)
             {
-                Debug.Log("PLAYING D MINOR");
+                //Debug.Log("PLAYING D MINOR");
                 lastPlayed = "D minor";
                 PlayDMinor();
             }
             else
             {
-                Debug.Log("PLAYING D");
+                //Debug.Log("PLAYING D");
                 lastPlayed = "D";
                 PlayD();
             }
@@ -138,13 +144,13 @@ namespace Leap.Unity {
         {
             if (isMinor)
             {
-                Debug.Log("PLAYING E MINOR");
+                //Debug.Log("PLAYING E MINOR");
                 lastPlayed = "E minor";
-                PlayE();
+                PlayEMinor();
             }
             else
             {
-                Debug.Log("PLAYING E");
+                //Debug.Log("PLAYING E");
                 lastPlayed = "E";
                 PlayE();
             }
@@ -155,13 +161,13 @@ namespace Leap.Unity {
         {
             if (isMinor)
             {
-                Debug.Log("PLAYING F MINOR");
+                //Debug.Log("PLAYING F MINOR");
                 lastPlayed = "F minor";
                 PlayFMinor();
             }
             else
             {
-                Debug.Log("PLAYING F");
+                //Debug.Log("PLAYING F");
                 lastPlayed = "F";
                 PlayF();
             }
@@ -172,13 +178,13 @@ namespace Leap.Unity {
         {
             if (isMinor)
             {
-                Debug.Log("PLAYING B MINOR");
+                //Debug.Log("PLAYING B MINOR");
                 lastPlayed = "B minor";
                 PlayBMinor();
             }
             else
             {
-                Debug.Log("PLAYING B");
+                //Debug.Log("PLAYING B");
                 lastPlayed = "B";
                 PlayB();
             }
@@ -396,53 +402,57 @@ namespace Leap.Unity {
     }
 
     public override void UpdateHand() {
-       if (height == 20f)
+       if (initHeight == 20f)
             {
-                height = hand_.GetPalmPose().position.y;
+                initHeight = hand_.GetPalmPose().position.y;
             }
 
-            //float grabThreshold = 0.5f;
-       //Debug.Log(hand_.);
        float current_pos = hand_.GetPalmPose().position.y;
-       bool switched = false;
-       if (current_pos > lastHeight && !direction.Equals("UP"))
+       pinch = hand_.PinchDistance;
+       if (pinch<pinchThreshold)
             {
-                direction = "UP";
-                switched = true;
+                numPinches++;
             }
-       else if (current_pos < lastHeight && !direction.Equals("DOWN"))
-            {
-                direction = "DOWN";
-                switched = true;
-            }
+       total++;
        lastHeight = current_pos;
 
-       float delta = current_pos - height;
-       if (current_pos - height > diff && switched)
+       delta = current_pos - initHeight;
+       
+       if (delta > diff)
             {
-                Debug.Log("DELTA: " + delta + " DIFF:" + diff);
-                height = current_pos;
-                isStrumming = true;
-                //fAMajor.SetActive(true);
-                //AMajor.GetComponent<AudioSource>().Play();
-                //Debug.Log("UPSTRUM " + Chords.GetComponent<Chords>.);
+                Debug.Log("UP");
+                direction = "UP";
+                initHeight = current_pos;
+                if (total*0.7 < numPinches)
+                {
+                    isStrumming = true;
+                    Debug.Log("PLAYING UP");
+                }
+                numPinches = 0;
+                total = 0;
+
             }
-       else if (current_pos-height < diff*-1 && switched)
+       else if (delta < -diff)
             {
-                //Debug.Log("DELTA: " + delta);
-                height = current_pos;
-                isStrumming = true;
-                //CMajor.SetActive(true);
-               // CMajor.GetComponent<AudioSource>().Play();
-                //Debug.Log("DOWNSTRUM " + Chords.lastChord());
+                Debug.Log("DOWN");
+                direction = "DOWN";
+                initHeight = current_pos;
+                if (total*0.7 < numPinches)
+                {
+                    isStrumming = true;
+                    Debug.Log("PLAYING DOWN");
+                }
+                numPinches = 0;
+                total = 0;
             }
-        else
+       else
             {
                 isStrumming = false;
             }
+
             if (isStrumming)
             {
-                Debug.Log("STRUMMING " + lastPlayed);
+                //Debug.Log("STRUMMING " + lastPlayed);
                 if (lastPlayed == "A")
                 {
                     PlayA();
@@ -482,7 +492,6 @@ namespace Leap.Unity {
       for (int f = 0; f < fingers.Length; ++f) {
         if (fingers[f] != null) {
           fingers[f].UpdateFinger();
-          // Debug.Log(fingers[f].name + "  " + fingers[f].GetTipPosition());
                 }
       }
 
