@@ -14,6 +14,24 @@ To run this project:
   5. Make sure your LeapMotion is working by waving your hand above it and seeing if the hand appears on the screen. 
   6. For chords to be recognized, your index finger and thumb must be pressing as if you are holding a pick. Try strumming, and you should hear the sound of the open strings on a guitar.
   7. Play a song! Remember that you can use voice commands 'Start' to start a recording, 'Stop' to stop it, and 'Playback' to listen to it.
+  
+## Table of Contents
+(../ = AirGuitar/)
+
+- **../vs./AirGuitar/v15**, **../Library**, **../Packages**, **../ProjectSettings**, **../obj/Debug**: Various Unity metadata files. Please do not touch or edit these in any way when cloning the project. It will probably break everything.
+- **../Assets**
+  - **/Chords**: The Unity audio objects that represent the chords. 
+  - **/LeapMotion**: Contains all of the assets and code necessary for LeapMotion integration. For strumming, we edited **../Assets/LeapMotion/Core/Scripts/Hands/RigidHand.cs**, which is attached to the detected hand objects.
+  - **/Pictures**: The Unity assets for the guitar background, the chord visualization buttons, and bar chords.
+  - **/Scenes**: Contains the two Unity scenes that make up the game - the intro and the Leap Guitar scenes, specifically.
+  - **/Scripts**: Majority of scripts for the project. 
+    - **AudioRecord.cs** controls voice input and the recording functionality.
+    - **LightUpFingers.cs** controls the chords 'lighting up' with the coded bubbles whenever a chord key is pressed (e.g. 'A', 'B'...)
+    - **PlayGame.cs** controls the intro scene switching to the Leap guitar scene.
+- **../Photoshop**: Contains Photoshop files for all the assets created for the program.
+- **../Pictures**: Contains picture for README
+- **../chords**: Contains mp3s for all the chords we currently support. 
+- **../AirGuitar.sln**, **../Assembly-CSharp-Editor.csproj**, **../Assembly-Csharp.csproj**: Files for Visual Studio 2017, the editor of choice for C# code used for Unity.
 
 ## Demos
 First prototype: https://www.youtube.com/watch?v=xeBiznrQeRw&feature=youtu.be
