@@ -7,6 +7,15 @@ For our 6.835 final project, we built a multimodal virtual guitar player called 
 - Nisha Devasia (ndevasia@mit.edu)
 - Nada Hussein (nhussein@mit.edu)
 
+## Demos
+First prototype: https://www.youtube.com/watch?v=xeBiznrQeRw&feature=youtu.be
+
+Second prototype: https://youtu.be/PMuuiR4kzuY
+
+Third prototype: https://youtu.be/mP9nLpaoNk4
+
+Final build: https://www.youtube.com/watch?v=ctez3kwp0w4
+
 ## Installation
 AirGuitar requires Unity 2018 1.1 and the LeapMotion Orion 4.0.0 for your SDK. You will need to have a LeapMotion readily available, as well as a working microphone on your laptop that accepts inputs.
 
@@ -36,13 +45,4 @@ To run this project:
 - **../Pictures**: Contains picture for README
 - **../chords**: Contains mp3s for all the chords we currently support. 
 - **../AirGuitar.sln**, **../Assembly-CSharp-Editor.csproj**, **../Assembly-Csharp.csproj**: Files for Visual Studio 2017, the editor of choice for C# code used for Unity.
-
-## Demos
-First prototype: https://www.youtube.com/watch?v=xeBiznrQeRw&feature=youtu.be
-
-Second prototype: https://youtu.be/PMuuiR4kzuY
-
-Third prototype: https://youtu.be/mP9nLpaoNk4
-
-Final build: https://www.youtube.com/watch?v=ctez3kwp0w4
 
