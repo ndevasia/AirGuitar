@@ -3,6 +3,10 @@ For our 6.835 final project, we built a multimodal virtual guitar player called 
 
 ![](Pictures/gamescreenplaying.png)
 
+## Team
+- Nisha Devasia (ndevasia@mit.edu)
+- Nada Hussein (nhussein@mit.edu)
+
 ## Installation
 AirGuitar requires Unity 2018 1.1 and the LeapMotion Orion 4.0.0 for your SDK. You will need to have a LeapMotion readily available, as well as a working microphone on your laptop that accepts inputs.
 
